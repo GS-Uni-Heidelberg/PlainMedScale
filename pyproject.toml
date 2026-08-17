@@ -1,0 +1,42 @@
+[project]
+name = "plainmedscale"
+version = "1.0.0"
+description = "Code for PlainMedScale: A Corpus of Multi-Level Simplified Medical Texts in German and English"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy",
+    "pandas",
+    "tqdm",
+    "spacy",
+    "spacy-syllables",
+    "editdistance",
+    "wordfreq",
+    "tiktoken",
+    "markdown-it-py",
+    "mdit-py-plugins",
+    "scipy",
+    "matplotlib",
+    "torch",
+    "transformers",
+    "accelerate",
+    "openai",
+    "openpyxl",
+    "pydantic",
+    "python-dotenv",
+    "typer",
+    "pyyaml",
+    "json-repair",
+    "somajo",
+    "sqlitefts",
+    "sqlite-vec",
+    "langchain-core",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+]
+
+# spaCy models aren't on PyPI; install separately after `uv sync`:
+#   uv run python -m spacy download de_core_news_lg
+#   uv run python -m spacy download en_core_web_lg

@@ -1,0 +1,311 @@
+# Single source of truth for readability/jargon metric metadata.
+#
+# Consumers:
+#   readability/stats_direction.py    -> key, dir_key, expected_sign
+#   readability/reporting/make_metrics_table.py -> key, title_en, dir_key, expected_sign, decimals
+#   readability/graphs.ipynb          -> key, title_de
+#   readability/stats_gap.py          -> key, dir_key, expected_sign
+#
+# Fields:
+#   key            TSV column name. Must match the pipeline output exactly.
+#   title_en       short English label for paper tables. Written LaTeX-native
+#                  (e.g. `--` for an en-dash, `\%` for a percent sign) because
+#                  make_metrics_table.py emits it verbatim. Plot scripts must
+#                  route it through metrics_config.plot_title() to undo those
+#                  escapes -- matplotlib does not read LaTeX.
+#   title_de       longer German label used in the boxplot notebook. Figures
+#                  only, never LaTeX, so plain text (no escaping).
+#   dir_key        which directory family the metric lives in:
+#                    "std"  -> data/metrics_strip
+#                    "llm"  -> data/metrics_llm_strip
+#                    "jarg" -> data/jargon_density
+#   expected_sign  expected direction of the metric as readability INCREASES:
+#                    +1  metric should INCREASE
+#                    -1  metric should DECREASE
+#                     0  no committed prior; reported but not graded
+#                  Pre-register the sign BEFORE looking at the data to avoid
+#                  double-dipping; post-hoc sign changes should be flagged in
+#                  comments below.
+#   decimals       number of decimal places when rendering mean +/- std in
+#                  the paper table. Default 2.
+
+[[metrics]]
+key = "avg_sentence_length"
+title_en = "Words per sentence"
+title_de = "Durchschnittliche Satzlänge"
+dir_key = "std"
+expected_sign = -1
+decimals = 2
+
+[[metrics]]
+key = "avg_syllable_length"
+title_en = "Syllables per word"
+title_de = "Durchschnittliche Silbenanzahl pro Wort"
+dir_key = "std"
+expected_sign = -1
+decimals = 2
+
+[[metrics]]
+key = "fkgl"
+title_en = "FKGL"
+title_de = "Flesch-Kincaid Grade Level"
+dir_key = "std"
+expected_sign = -1
+decimals = 2
+
+[[metrics]]
+key = "wstf"
+title_en = "Wiener Sachtextformel"
+title_de = "Wiener Sachtextformel"
+dir_key = "std"
+expected_sign = -1
+decimals = 2
+
+[[metrics]]
+key = "noun_ratio"
+title_en = "Noun ratio"
+title_de = "Nomenanteil"
+dir_key = "std"
+expected_sign = -1
+decimals = 2
+
+[[metrics]]
+# Sign committed post-hoc from the DE boxplot. DE PASSes monotonically;
+# EN flips wrong-direction at one step. Flag in paper if this comes up.
+key = "adjective_ratio"
+title_en = "Adjective ratio"
+title_de = "Adjektivanteil"
+dir_key = "std"
+expected_sign = -1
+decimals = 2
+
+[[metrics]]
+key = "function_word_ratio"
+title_en = "Function word ratio"
+title_de = "Funktionswortanteil"
+dir_key = "std"
+expected_sign = 1
+decimals = 2
+
+[[metrics]]
+# Empirically the direction looks like -1 (more numeric cutoffs in expert
+# prose). Sign +1 here is a placeholder; revisit before paper.
+key = "numbers_ratio"
+title_en = "Numbers ratio"
+title_de = "Zahlenanteil"
+dir_key = "std"
+expected_sign = -1
+decimals = 2
+
+[[metrics]]
+key = "negations_ratio"
+title_en = "Negations ratio"
+title_de = "Negationsanteil"
+dir_key = "std"
+expected_sign = 1
+decimals = 2
+
+[[metrics]]
+key = "grammar_frequency"
+title_en = "Grammar frequency"
+title_de = "Satzstrukturhäufigkeit"
+dir_key = "std"
+expected_sign = 1
+decimals = 2
+
+[[metrics]]
+key = "adjacent_sent_edit_distance"
+title_en = "Edit distance" #"Adjacent sentence edit distance"
+title_de = "Edit-Distanz zwischen benachbarten Sätzen"
+dir_key = "std"
+expected_sign = -1
+decimals = 2
+
+[[metrics]]
+key = "dep_tree_depth"
+title_en = "Dependency tree depth"
+title_de = "Tiefe des Satzbaumes"
+dir_key = "std"
+expected_sign = -1
+decimals = 2
+
+[[metrics]]
+key = "noun_phrase_complexity"
+title_en = "Noun phrase complexity"
+title_de = "Komplexität der Nominalphrasen"
+dir_key = "std"
+expected_sign = -1
+decimals = 2
+
+# "Term frequency (PMW)" is content-words only. The pipeline also emits a
+# raw, unfiltered `word_freq` column for back-compat, but it's not exposed
+# to the registry (function-word contamination makes it uninterpretable as
+# a readability signal). Do not re-add it without flagging in the paper.
+[[metrics]]
+key = "word_freq_filtered"
+title_en = "Term frequency (PMW)"
+title_de = "Worthäufigkeit in der Gemeinsprache (PMW)"
+dir_key = "std"
+expected_sign = 1
+decimals = 1
+scale = 1_000_000
+
+[[metrics]]
+key = "type_token_ratio"
+title_en = "Type--token ratio"
+title_de = "Typ-Token-Verhältnis"
+dir_key = "std"
+expected_sign = -1
+decimals = 2
+
+# ----- LLM-based metrics (pipeline_llms.py) ---------------------------------
+
+[[metrics]]
+key = "ansp"
+title_en = "Avg. CLS score" #"Avg. next sentence prediction score (BERT)"
+title_de = "BERT Next-Sentence-Prediction-Wahrscheinlichkeit"
+dir_key = "llm"
+expected_sign = 1
+decimals = 3
+
+[[metrics]]
+key = "appl_full_median"
+title_en = "Avg. LM perplexity (GPT-2, sentence median)"
+title_de = "GPT-2 Satz-Perplexität (Median)"
+dir_key = "llm"
+expected_sign = -1
+decimals = 2
+
+[[metrics]]
+key = "appl_fulltext"
+title_en = "Avg. LM perplexity (GPT-2, fulltext)"
+title_de = "GPT-2 Volltext-Perplexität"
+dir_key = "llm"
+expected_sign = -1
+decimals = 2
+
+[[metrics]]
+key = "lmfm"
+title_en = "Fill Mask probability"
+title_de = "BERT Masked-LM Wahrscheinlichkeit"
+dir_key = "llm"
+expected_sign = 1
+decimals = 3
+
+# ----- Jargon density (pipeline_jargon.py) ----------------------------------
+
+[[metrics]]
+# Raw values are jargon tokens per 100 tokens; scaled by 0.01 to a plain 0--1
+# share, so it reads like the other share metrics (noun_ratio, function_word_
+# ratio, ...) and needs no unit in the label. Deliberately NOT in PMW like
+# word_freq*: the two are different kinds of quantity (share of *this text's*
+# tokens vs. corpus frequency of the words it uses). Three decimals rather
+# than the usual two -- the observed range is roughly 0.00--0.30, so two would
+# collapse the low-jargon sources onto the same value.
+key = "jargon_per_100"
+title_en = "Jargon density"
+title_de = "Fachwortdichte"
+dir_key = "jarg"
+expected_sign = -1
+decimals = 3
+scale = 0.01
+
+# ----- Metrics computed by the pipelines but currently un-graded ------------
+# Included for the German boxplot notebook; expected_sign=0 means they will
+# appear without a monotonicity marker in the paper table.
+
+[[metrics]]
+key = "lexical_chain_lens"
+title_en = "Avg. lexical chain length"
+title_de = "Länge der lexikalischen Ketten"
+dir_key = "std"
+expected_sign = 1
+decimals = 2
+
+[[metrics]]
+key = "crossing_lexical_chains"
+title_en = "Avg. lexical cross chains"
+title_de = "Kreuzende lexikalische Ketten"
+dir_key = "std"
+expected_sign = -1
+decimals = 2
+
+[[metrics]]
+key = "bpe_sentence_length"
+title_en = "BPE sentence length"
+title_de = "Durchschnittliche BPE-Satzlänge"
+dir_key = "std"
+expected_sign = 0
+decimals = 2
+
+[[metrics]]
+key = "avg_bpe_length"
+title_en = "Avg. BPE / word"
+title_de = "Durchschnittliche BPE-Wortlänge"
+dir_key = "std"
+expected_sign = 0
+decimals = 2
+
+[[metrics]]
+key = "bpe_char_ratio"
+title_en = "BPE char/token ratio"
+title_de = "BPE-Zeichen-zu-Token-Verhältnis"
+dir_key = "std"
+expected_sign = 0
+decimals = 2
+
+[[metrics]]
+key = "bpe_char_ratio_lex"
+title_en = "BPE char/token ratio (lex.)"
+title_de = "BPE-Zeichen-zu-Token-Verhältnis (Inhaltswörter)"
+dir_key = "std"
+expected_sign = 0
+decimals = 2
+
+[[metrics]]
+key = "heaps_law_beta"
+title_en = "Heaps' $\\beta$"
+title_de = "Heaps'sches Gesetz Beta"
+dir_key = "std"
+expected_sign = 0
+decimals = 2
+
+[[metrics]]
+key = "heaps_law_beta_lex"
+title_en = "Heaps' $\\beta$ (lex.)"
+title_de = "Heaps'sches Gesetz Beta (Inhaltswörter)"
+dir_key = "std"
+expected_sign = 0
+decimals = 2
+
+[[metrics]]
+key = "mattr"
+title_en = "Moving-Avg.-Typ-Token-Ratio"
+title_de = "Moving-Avg.-Typ-Token-Verhältnis"
+dir_key = "std"
+expected_sign = -1
+decimals = 2
+
+[[metrics]]
+key = "appl_filtered_mean"
+title_en = "Avg. sentence perplexity"
+title_de = "GPT-2 Satz-Perplexität (Mittelwert, gefiltert)"
+dir_key = "llm"
+expected_sign = -1
+decimals = 0
+
+[[metrics]]
+key = "appl_filtered_median"
+title_en = "APPL (filtered, median)"
+title_de = "GPT-2 Satz-Perplexität (Median, gefiltert)"
+dir_key = "llm"
+expected_sign = -1
+decimals = 2
+
+[[metrics]]
+key = "appl_full_mean"
+title_en = "APPL (GPT-2 ppl., mean)"
+title_de = "GPT-2 Satz-Perplexität (Mittelwert)"
+dir_key = "llm"
+expected_sign = -1
+decimals = 2

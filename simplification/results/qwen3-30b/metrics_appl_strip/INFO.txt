@@ -1,0 +1,13 @@
+============================================================
+pipeline:    simplification/pipeline_metrics.py (llm)
+timestamp:   2026-05-11T13:49:28+00:00
+argv:        simplification/pipeline_metrics.py --run-dir simplification/results/qwen3-30b/ --metrics llm --table-mode strip --appl-only
+inputs:
+  - simplification/results/qwen3-30b/simplifications_de.tsv (mtime=2026-05-11T15:43:50, size=32797968)
+  - simplification/results/qwen3-30b/simplifications_en.tsv (mtime=2026-05-11T15:43:50, size=34712602)
+run_dir: simplification/results/qwen3-30b
+n_rows: 7385
+overwrite: False
+table_mode: strip
+appl_only: True
+

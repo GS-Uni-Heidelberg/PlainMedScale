@@ -1,0 +1,43 @@
+============================================================
+pipeline:    readability/pipeline_spacy.py
+timestamp:   2026-05-11T13:56:14+00:00
+argv:        readability/pipeline_spacy.py --table-mode strip --output-dir data/metrics_strip --overwrite
+inputs:
+  - data/msd_20251103.json (mtime=2026-01-19T14:43:58, size=180445477)
+  - data/gesund_bund_20251103.json (mtime=2026-01-19T14:43:54, size=19356558)
+  - data/apoum_20251103.json (mtime=2026-01-19T14:43:53, size=3517223)
+  - data/nhs_20251103.json (mtime=2026-01-19T14:43:53, size=7171790)
+table_mode: strip
+overwrite: True
+metrics:
+  - avg_sentence_length
+  - avg_syllable_length
+  - fkgl
+  - wstf
+  - noun_ratio
+  - adjective_ratio
+  - function_word_ratio
+  - numbers_ratio
+  - negations_ratio
+  - grammar_frequency
+  - adjacent_sent_edit_distance
+  - dep_tree_depth
+  - noun_phrase_complexity
+  - word_freq
+  - word_freq_filtered
+  - lexical_chain_lens
+  - crossing_lexical_chains
+  - bpe_sentence_length
+  - avg_bpe_length
+  - bpe_char_ratio
+  - bpe_char_ratio_lex
+  - type_token_ratio
+  - mattr
+  - heaps_law_beta
+  - heaps_law_beta_lex
+  - verb_ratio
+  - herdans_c
+  - text_length
+  - text_length_lex
+  - text_length_sentences
+

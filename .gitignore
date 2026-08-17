@@ -1,0 +1,21 @@
+# Corpus data — download the Zenodo release into data/corpus/
+data/corpus/
+
+# Large keyness TSVs — see readability/jargon/keys/README.md
+readability/jargon/keys/*/
+
+# Regenerable outputs
+figures/
+latex_tables/
+
+# SQLite databases built by the search notebooks
+*.db
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints
+.venv/
+env/
+.env

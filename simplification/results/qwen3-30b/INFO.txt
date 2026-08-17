@@ -1,0 +1,43 @@
+============================================================
+Run: qwen3-30b — the simplification run reported in the paper (§4.3).
+
+pipeline:        simplification/run_simplify.py
+model:           Qwen/Qwen3-30B-A3B-Instruct-2507
+dtype:           bfloat16
+decoding:        greedy (do_sample=False)
+max_new_tokens:  2048
+max_source_words:4000
+batch_size:      8
+seed:            42
+prompts:         simplification/prompts.yaml
+tiers:           4_tier 3_tier 2_tier (EN has no 4_tier clusters)
+bucket_priority: 4_tier 3_tier 2_tier
+hardware:        1x H200 141 GB
+
+outputs:
+  - simplifications_de.tsv
+  - simplifications_en.tsv
+  The `raw_response` column of the original run is not published: this run
+  emitted no thinking blocks, so it duplicated `simplified_text`.
+
+row counts (per source/subtree, deduped on instance_id):
+  DE (3561 rows total):
+    apoum / amateur:        148
+    gesund / amateur:       285
+    msd   / amateur:       1536
+    msd   / professional:  1592
+  EN (3824 rows total):
+    gesund / amateur:       354
+    msd   / amateur:       1516
+    msd   / professional:  1589
+    nhs   / amateur:        365
+
+scope:
+  Only articles that appear in an alignment cluster under the tiers above are
+  simplified, so these counts are below the full source counts by design.
+
+derived metric dirs (simplification/pipeline_metrics.py):
+  - metrics_strip/       spacy metrics
+  - jargon_density/      jargon_per_100
+  - metrics_appl_strip/  GPT-2 perplexity
+  Each carries its own INFO.txt stamp.

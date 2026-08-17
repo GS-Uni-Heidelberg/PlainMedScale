@@ -1,0 +1,12 @@
+============================================================
+pipeline:    simplification/pipeline_metrics.py (spacy)
+timestamp:   2026-05-11T13:57:12+00:00
+argv:        simplification/pipeline_metrics.py --run-dir simplification/results/qwen3-30b --metrics spacy --table-mode strip --overwrite
+inputs:
+  - simplification/results/qwen3-30b/simplifications_de.tsv (mtime=2026-05-07T17:54:45, size=32797968)
+  - simplification/results/qwen3-30b/simplifications_en.tsv (mtime=2026-05-08T13:16:07, size=34712602)
+run_dir: simplification/results/qwen3-30b
+n_rows: 7385
+overwrite: True
+table_mode: strip
+

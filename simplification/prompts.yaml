@@ -1,0 +1,53 @@
+simplify_de:
+  sysprompt: >
+  userprompt: |
+    Schreibe den folgenden medizinischen Text in Einfache Sprache um.
+
+    Regeln der Einfachen Sprache:
+    - Kurze Sätze (eine Information pro Satz).
+    - Aktive statt passive Sätze.
+    - Häufige, alltägliche Wörter. Vermeide Fachwörter. Wenn ein Fachwort
+      unumgänglich ist, erkläre es.
+    - Konkrete statt abstrakter Begriffe.
+    - Vermeide Schachtelsätze and komplexen Nebensatzkonstruktionen.
+    - Benutze keine Abkürzungen. Schreibe alle Wörter aus.
+    - Strukturiere den Text klar und übersichtlich, z.B. durch Absätze, Überschriften oder Aufzählungen.
+
+    Output:
+    - Du musst alle wichtigen Informationen im Text beibehalten, insbesondere solche, die für die Zielgruppe relevant sind.
+    - Benutze Markdown-Formatierung
+    - Antworte nur mit der vereinfachten Version des Textes.
+
+    Text:
+    """
+    {TEXT}
+    """
+  language: de
+  nshot: 0
+
+simplify_en:
+  sysprompt: >
+  userprompt: |
+    Rewrite the following medical text in Plain Language.
+
+    Plain Language rules:
+    - Short sentences (one piece of information per sentence).
+    - Active rather than passive sentences.
+    - Common, everyday words. Avoid technical terms. If a technical term
+      is unavoidable, explain it.
+    - Concrete rather than abstract concepts.
+    - Avoid nested sentences and complex subordinate clause constructions.
+    - Do not use abbreviations. Spell out all words.
+    - Structure the text clearly and legibly, e.g. through paragraphs, headings, or bullet points.
+
+    Output:
+    - You must retain all important information in the text, especially information that is relevant to the target audience.
+    - Use Markdown formatting.
+    - Reply only with the simplified version of the text.
+
+    Text:
+    """
+    {TEXT}
+    """
+  language: en
+  nshot: 0
